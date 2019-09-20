@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>微信视频聊天</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            list-style:none;
+        }
+        html,body,#app{
+            width:100%;
+            height:100%;
+            overflow: hidden;
+        }
+        #app{
+            background: url("./img/a.jpg") no-repeat;
+            background-size: cover;
+        }
+        #profile{
+            width: 120px
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="profile"><img width="100%" src="./img/me.jpg" alt=""></div>
+    </div>
+    <script src="./js/transformCSS.js"></script>
+    <script>
+        var app=document.querySelector("#app");
+        var profile=document.querySelector("#profile");
+
+        //手指按下事件
+        profile.addEventListener("touchstart",function (e) {
+            this.x=e.changedTouches[0].clientX;
+            this.left=transformCSS(profile,"translateX");
+        })
+        //手指移动的距离
+        profile.addEventListener("touchmove",function (e) {
+            this._x=e.changedTouches[0].clientX;
+            var newLeft=this._x-this.x+this.left;
+            transformCSS(profile,"translateX",newLeft)
+
+        })
+        //手指抬起时
+        profile.addEventListener("touchend",function (e) {
+            //计算临界值
+            var lingjie=(app.offsetWidth-profile.offsetWidth)/2;
+            //获取当前X的值
+           var translateX=transformCSS(profile,"translateX");
+
+            if(translateX<lingjie){
+                translateX=0;
+                transformCSS(profile,"translateX",translateX)
+            }
+            if(translateX>lingjie){
+                var xx=app.offsetWidth-profile.offsetWidth;
+                transformCSS(profile,"translateX",xx)
+            }
+
+        })
+    </script>
+</body>
+</html>
